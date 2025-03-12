@@ -19,14 +19,25 @@ class TextToSpeech:
             print(f"\tVoice {index}: {voice.name}")
         self.engine.setProperty("voice", self.engine.getProperty("voices")[0].id)
 
-    def set_text(self, text):
-        self.text = text
-
-    async def text_to_speech(self):
-        text = ""
-        if self.text:
-            text = self.text
-        else: 
-            text = "Testeroni of the voiceroni. Hello, Aster, how are you today? I hope your day is well"
+    def get_voice_options(self):
+        return self.engine.getProperty("voices")
+    
+    def set_voice(self, voice_id):
+        self.engine.setProperty("voice", voice_id)
+    
+    async def test_voice(self):
+        text = "This is how the voice sounds"
         self.engine.say(text)
-        await self.engine.runAndWait()
+        self.engine.runAndWait()
+
+    async def play(self):
+        text = self.text or "Nothing Selected"
+        self.engine.say(text)
+        self.engine.runAndWait()
+
+    async def play(self, text):
+        self.engine.say(text)
+        self.engine.runAndWait()
+
+    def stop(self):
+        self.engine.stop()
